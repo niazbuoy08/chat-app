@@ -1,12 +1,17 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
+import { Platform, View } from 'react-native';
 
 import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
 import TabBarBackground from '@/components/ui/TabBarBackground';
+import { IconSymbol } from '@/components/ui/IconSymbol';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+
+// Simple icon component for tabBarIcon
+function TabIcon({ name, color }: { name: string; color: string }) {
+  return <IconSymbol size={28} name={name} color={color} />;
+}
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -19,25 +24,41 @@ export default function TabLayout() {
         tabBarButton: HapticTab,
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
+          ios: { position: 'absolute' }, // transparent background for blur
           default: {},
         }),
-      }}>
+      }}
+    >
+      {/* Chat Tab */}
       <Tabs.Screen
-        name="index"
+        name="chat"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Chat',
+          tabBarIcon: ({ color }) => (
+            <TabIcon name="message" color={color} />
+          ),
         }}
       />
+      
+      {/* Login Tab */}
       <Tabs.Screen
-        name="explore"
+        name="Login"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Login',
+          tabBarIcon: ({ color }) => (
+            <TabIcon name="person" color={color} />
+          ),
+        }}
+      />
+      
+      {/* Register Tab */}
+      <Tabs.Screen
+        name="Register"
+        options={{
+          title: 'Register',
+          tabBarIcon: ({ color }) => (
+            <TabIcon name="person.badge.plus" color={color} />
+          ),
         }}
       />
     </Tabs>
